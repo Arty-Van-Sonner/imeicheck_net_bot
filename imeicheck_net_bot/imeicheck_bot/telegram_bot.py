@@ -1,15 +1,17 @@
+# from telebot.async_telebot import AsyncTeleBot
 import telebot
-
+# from .classes.main_thread import MainThread
 from users.models import CustomUser
 from imeicheck_net_bot.settings import TElEGRAM_BOT_TOKEN
 
-MainThread = classes.MainThread
+# MainThread = MainThread
 
 bot = telebot.TeleBot(TElEGRAM_BOT_TOKEN)
 
 @bot.message_handler(commands = ['start'])
 def start(message: telebot.types.Message):
-    users =  CustomUser.objects.filter(telegram_user_id = message.user_shared.user_id, access_opened = True)
+    users =  CustomUser.objects.filter(telegram_user_id = message.from_user.id, access_opened = True)
+    print(message.from_user.id)
     answer = 'Bad'
     if len(users) == 1:
         answer = 'Good'
@@ -75,5 +77,5 @@ def start(message: telebot.types.Message):
 #     Show instructions: /help
 #     Show data of currency: /help <currency name>'''
 
-# bot.polling()
+bot.polling()
     
