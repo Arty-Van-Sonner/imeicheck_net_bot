@@ -1,21 +1,44 @@
-# from telebot.async_telebot import AsyncTeleBot
-import telebot
-# from .classes.main_thread import MainThread
 from users.models import CustomUser
+
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from imeicheck_net_bot.settings import TElEGRAM_BOT_TOKEN
 
-# MainThread = MainThread
 
-bot = telebot.TeleBot(TElEGRAM_BOT_TOKEN)
 
-@bot.message_handler(commands = ['start'])
-def start(message: telebot.types.Message):
-    users =  CustomUser.objects.filter(telegram_user_id = message.from_user.id, access_opened = True)
-    print(message.from_user.id)
+async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    users =  CustomUser.objects.filter(telegram_user_id = update.message.from_user.id, access_opened = True)
+    print(update.message.from_user.id)
     answer = 'Bad'
     if len(users) == 1:
         answer = 'Good'
-    bot.reply_to(message, answer, parse_mode="Markdown")
+    await update.message.reply_text(answer)
+
+
+app = ApplicationBuilder().token(TElEGRAM_BOT_TOKEN).build()
+
+app.add_handler(CommandHandler("start", hello))
+
+app.run_polling()
+
+# from telebot.async_telebot import AsyncTeleBot
+# import telebot
+# # from .classes.main_thread import MainThread
+# from users.models import CustomUser
+# 
+
+# # MainThread = MainThread
+
+# bot = telebot.TeleBot(TElEGRAM_BOT_TOKEN)
+
+# @bot.message_handler(commands = ['start'])
+# def start(message: telebot.types.Message):
+#     users =  CustomUser.objects.filter(telegram_user_id = message.from_user.id, access_opened = True)
+#     print(message.from_user.id)
+#     answer = 'Bad'
+#     if len(users) == 1:
+#         answer = 'Good'
+#     bot.reply_to(message, answer, parse_mode="Markdown")
 
 # @bot.message_handler(commands = ['help'])
 # def help(message: telebot.types.Message): 
@@ -77,5 +100,5 @@ def start(message: telebot.types.Message):
 #     Show instructions: /help
 #     Show data of currency: /help <currency name>'''
 
-bot.polling()
+# bot.polling()
     
