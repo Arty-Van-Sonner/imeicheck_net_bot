@@ -35,3 +35,17 @@ class LabelsAndInstructionsLanguages(models.Model):
                 name = 'unique appversion'
             )
         ]
+
+class RequestsTypes(models.Model):
+    '''
+    
+    '''
+    created = models.DateTimeField(auto_now_add = True, name = 'created', db_column = 'created')
+    changed = models.DateTimeField(auto_now = True, name = 'changed', db_column = 'changed')
+
+class RequestsLog(models.Model):
+    '''
+    
+    '''
+    created = models.DateTimeField(auto_now_add = True, name = 'created', db_column = 'created')
+    type = models.ForeignKey(RequestsTypes, name = 'type', db_column = 'type', on_delete = models.CASCADE) 
