@@ -40,6 +40,7 @@ class RequestsTypes(models.Model):
     '''
     
     '''
+    name = models.CharField(max_length = 256, name = 'name', db_column = 'name')
     created = models.DateTimeField(auto_now_add = True, name = 'created', db_column = 'created')
     changed = models.DateTimeField(auto_now = True, name = 'changed', db_column = 'changed')
 
@@ -48,4 +49,6 @@ class RequestsLog(models.Model):
     
     '''
     created = models.DateTimeField(auto_now_add = True, name = 'created', db_column = 'created')
-    type = models.ForeignKey(RequestsTypes, name = 'type', db_column = 'type', on_delete = models.CASCADE) 
+    type = models.ForeignKey(RequestsTypes, name = 'type', db_column = 'type', on_delete = models.CASCADE)
+    title = models.CharField(max_length = 256, name = 'title', db_column = 'title')
+    description = models.TextField(name = 'description', db_column = 'description')
