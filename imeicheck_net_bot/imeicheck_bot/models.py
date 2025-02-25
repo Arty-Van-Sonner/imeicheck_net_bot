@@ -44,6 +44,9 @@ class RequestsTypes(models.Model):
     created = models.DateTimeField(auto_now_add = True, name = 'created', db_column = 'created')
     changed = models.DateTimeField(auto_now = True, name = 'changed', db_column = 'changed')
 
+    def __str__(self) -> str:
+        return self.name
+
 class RequestsLog(models.Model):
     '''
     
