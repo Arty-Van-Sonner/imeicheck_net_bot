@@ -47,11 +47,21 @@ class RequestsTypes(models.Model):
     def __str__(self) -> str:
         return self.name
 
+class RequestsLogType(models.Model):
+    '''
+    
+    '''
+    name = models.CharField(max_length = 256, name = 'name', db_column = 'name')
+
 class RequestsLog(models.Model):
     '''
     
     '''
     created = models.DateTimeField(auto_now_add = True, name = 'created', db_column = 'created')
-    type = models.ForeignKey(RequestsTypes, name = 'type', db_column = 'type', on_delete = models.CASCADE)
+    request_type = models.ForeignKey(RequestsTypes, name = 'request_type', db_column = 'request_type', on_delete = models.CASCADE)
+    type = models.ForeignKey(RequestsLogType, name = 'type', db_column = 'type', on_delete = models.CASCADE)
     title = models.CharField(max_length = 256, name = 'title', db_column = 'title')
     description = models.TextField(name = 'description', db_column = 'description')
+
+    def __str__(self) -> str:
+        return f'{self.created} {self.title} ({self.type}): {self.description}'
